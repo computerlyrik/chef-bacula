@@ -1,0 +1,45 @@
+#
+# Default  Bacula File Daemon Configuration file
+#
+#  For Bacula release 5.2.5 (26 January 2012) -- ubuntu 12.04
+#
+# There is not much to change here except perhaps the
+# File daemon Name to
+#
+
+#
+# List Directors who are permitted to contact this File daemon
+#
+Director {
+  Name = backup-dir
+  Password = "<%= node['bacula']['fd']['password'] %>"
+}
+
+#
+# Restricted Director, used by tray-monitor to get the
+#   status of the file daemon
+#
+Director {
+  Name = backup-mon
+  Password = "<%= node['bacula']['fd']['password_monitor'] %>"
+  Monitor = yes
+}
+
+#
+# "Global" File daemon configuration specifications
+#
+FileDaemon {                          # this is me
+  Name = <%= node['fqdn'] %>
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /var/run/bacula
+  Maximum Concurrent Jobs = 20
+  FDAddress = <%= node['bacula']['fd']['address'] %>
+}
+
+# Send all messages except skipped files back to Director
+Messages {
+  Name = Standard
+  director = backup-dir = all, !skipped, !restored
+}
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /var/local/chefbackups
+knife exec /usr/local/sbin/chef_server_backup.rb -k /etc/chef/client.pem -u <%=node['fqdn']%>
+couchdb-dump http://127.0.0.1:5984/chef > couchdb

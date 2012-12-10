@@ -1,0 +1,12 @@
+#!/bin/bash
+
+BACKUPLOCATION=/var/local/mysqlbackups
+
+# back up all the mysql databases, into individual files so we can later restore
+# them separately if needed.
+mysql -u root -p<%= node['mysql']['server_root_password'] %> -B -N -e "show databases" | while read db
+do
+   BACKUPFILE=$BACKUPLOCATION/$db.mysql
+   echo "Backing up $db into $BACKUPFILE"
+   /usr/bin/mysqldump -u root -p<%= node['mysql']['server_root_password'] %>  $db > $BACKUPFILE
+done
