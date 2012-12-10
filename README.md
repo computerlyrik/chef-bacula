@@ -53,6 +53,7 @@ openssl #for password generation
 #Attributes
 
 **default.rb**
+
 Configure the bacula user
 ```ruby
 node['bacula']['user']
@@ -60,6 +61,7 @@ node['bacula']['group']
 ```
 
 **server.rb**
+
 Set properties for File based backup
 ```ruby
 node['bacula']['volume_size'] = "1G"
@@ -68,12 +70,14 @@ node['bacula']['label_format'] = "BaculaFile"
 ```
 
 **client.rb**
+
 Set files to be backed up (see Usage below)
 ```ruby
 node['bacula']['fd']['files']
 ```
 
 **storage.rb**
+
 Set up destination of File-Storage
 ```ruby
 default['bacula']['sd']['backup_dir'] = "/backup"
@@ -81,21 +85,25 @@ default['bacula']['sd']['backup_dir'] = "/backup"
 
 # Usage
 
+
 ## Backup Job generation
 
 To autogenerate jobs the following expressions need to be ```true``` on ```bacula::client``` machine:
 
 **Mysql**
+
 ```ruby
 node['mysql'] && node['mysql']['server_root_password']
 ```
 
 **Ldap**
+
 ```ruby
 node['openldap'] && node['openldap']['slapd_type'] == "master"
 ```
 
 **Chef Server**
+
 ```ruby
 node['fqdn'] == "chef.#{node['domain']}"
 ```
