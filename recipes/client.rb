@@ -47,6 +47,18 @@ if node['mysql'] && node['mysql']['server_root_password']
     action :create
     recursive true
   end
+
+  template '/usr/local/sbin/restoredbs' do
+    mode 0500
+    user node['bacula']['user']
+    group 'root'
+  end
+  directory '/var/local/mysqlrestores' do
+    user node['bacula']['user']
+    action :create
+    recursive true
+  end
+  
   
 end
 
@@ -59,6 +71,18 @@ if node['openldap'] && node['openldap']['slapd_type'] == "master"
   end
 
   directory '/var/local/ldapbackups' do
+    user node['bacula']['user']
+    action :create
+    recursive true
+  end
+  
+
+  template '/usr/local/sbin/restoreldap' do
+    mode 0500
+    user node['bacula']['user']
+    group 'root'
+  end
+  directory '/var/local/ldaprestores' do
     user node['bacula']['user']
     action :create
     recursive true
@@ -87,6 +111,19 @@ if node['fqdn'] == "chef.#{node['domain']}"
   end
 
   directory "/var/local/chefbackups" do
+    user node['bacula']['user']
+    action :create
+    recursive true
+  end
+
+
+  template '/usr/local/sbin/restorechef' do
+    mode 0500
+    user node['bacula']['user']
+    group 'root'
+  end
+  
+  directory '/var/local/chefrestores' do
     user node['bacula']['user']
     action :create
     recursive true
