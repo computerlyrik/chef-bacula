@@ -134,3 +134,6 @@ To change the backup cycle make changes in templates/default/bacula-dir.conf
 - more datastores (postgresql, sqlite)
 - make attributes out of the listening port
 - make mailing work
+
+# Contact
+see metadata.rb
