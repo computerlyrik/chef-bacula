@@ -185,6 +185,46 @@ FileSet {
   }
 }
 
+
+#Restore Job for Mysql Replay
+Job {
+  Name = "RestoreMysql"
+  Type = Restore
+  Client=backup-fd
+  FileSet="Fileset_mysql"
+  Storage = File
+  Pool = Default
+  Messages = Standard
+  Where = /var/local/mysqlrestores
+ ClientRunBeforeJob = "/usr/local/sbin/restoredbs"
+}
+
+#Restore Job for OpenLdap replay
+Job {
+  Name = "RestoreLdap"
+  Type = Restore
+  Client=backup-fd
+  FileSet="Fileset_ldap"
+  Storage = File
+  Pool = Default
+  Messages = Standard
+  Where = /var/local/ldaprestores
+#  ClientRunAfterJob = "/usr/local/sbin/restoreldap"
+}
+
+#Restore Job for Chef Server replay
+Job {
+  Name = "RestoreChef"
+  Type = Restore
+  Client=backup-fd
+  FileSet="Fileset_chef"
+  Storage = File
+  Pool = Default
+  Messages = Standard
+  Where = /var/local/chefrestores
+#  ClientRunAfterJob = "/usr/local/sbin/restorechef"
+}
+
 # Client (File Services) to backup
 <% @bacula_clients.each do |client| %>
   Client {
