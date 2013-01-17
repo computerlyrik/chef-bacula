@@ -1,0 +1,3 @@
+#!/bin/bash
+echo <%=node['bacula']['sd']['remote_password']%> | sshfs <%=node['bacula']['sd']['remote_connection']%> /backup -o password_stdin -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no &> /var/log/bacula/mount_log
+
