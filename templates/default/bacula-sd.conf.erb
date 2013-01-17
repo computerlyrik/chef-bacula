@@ -58,6 +58,12 @@ Device {
   AutomaticMount = yes;               # when device opened, read it
   RemovableMedia = no;
   AlwaysOpen = no;
+<% if @remote_mount %>
+  RequiresMount = yes
+  MountPoint = <%= node['bacula']['sd']['backup_dir'] %>
+  Mount Command = "/etc/bacula/scripts/storage_remote_mount"
+  Unmount Command = "fusermount -u %m"
+<% end %>
 }
 #
 # An autochanger device with two drives

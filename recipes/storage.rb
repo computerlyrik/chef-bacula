@@ -32,8 +32,23 @@ directory node['bacula']['sd']['backup_dir'] do
   action :create
 end
 
+
+remote_mount = node['bacula']['sd']['remote_connection'] && node['bacula']['sd']['remote_password'] 
+
+if remote_mount 
+  package "sshfs"
+
+  template "/etc/bacula/scripts/storage_remote_mount" do
+    mode 0500
+    user node['bacula']['user']
+    group 'root'
+  end
+end
+
 template "/etc/bacula/bacula-sd.conf" do
   group node['bacula']['group']
   mode 0640
+  variables ({:remote_mount => remote_mount})
   notifies :restart, resources(:service=>"bacula-sd")
 end
+
