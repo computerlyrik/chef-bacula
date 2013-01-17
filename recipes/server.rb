@@ -40,7 +40,7 @@ mysql_database_user node['bacula']['mysql_user'] do
   database_name node['bacula']['mysql_user']
   connection mysql_connection_info
 #  notifies :run, resources(:execute=>"create_mysql_tables")
-  action :grant
+  action [:create,:grant]
 end
 
 mysql_database node['bacula']['mysql_user'] do
@@ -50,7 +50,7 @@ end
 
 cookbook_file "/etc/bacula/mysql_tables"
 execute "create_mysql_tables" do
-  command "mysql -u root -p#{node['mysql']['server_root_password']}"
+  command "mysql -u root -p#{node['mysql']['server_root_password']} #{node['bacula']['mysql_user']} < /etc/bacula/mysql_tables"
   action :nothing
   subscribes :run, resources(:mysql_database => node['bacula']['mysql_user'])
 end
