@@ -342,8 +342,8 @@ Messages {
 #
   mailcommand = "/usr/lib/bacula/bsmtp -h localhost -f \"\(Bacula\) \< %r\ >\" -s \"Bacula: %t %e of %c %l\" %r"
   operatorcommand = "/usr/lib/bacula/bsmtp -h localhost -f \"\(Bacula\) \< %r \>\" -s \"Bacula: Intervention needed for %j\" %r"
-  mail = root@localhost = all, !skipped
-  operator = root@localhost = mount
+  mail = <%=node['bacula']['messages']['mail']%> = all, !skipped
+  operator = <%=node['bacula']['messages']['operator']%> = mount
   console = all, !skipped, !saved
 #
 # WARNING! the following will create a file that you must cycle from
