@@ -37,7 +37,7 @@ if node['gitlab']
 end
 
 #SPARKLESHARE
-if node['sparkleshare']['dashboard']
+if not node['sparkleshare'] and node['sparkleshare']['dashboard']
   node.set['bacula']['fd']['files'] = {
     'includes' => node['sparkleshare']['dashboard']['dir']
   }
