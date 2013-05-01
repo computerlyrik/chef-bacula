@@ -54,6 +54,7 @@ if platform?("ubuntu") #precise 12.04
 else #debian 6
   source "mysql_tables_12"
 end
+end
 
 execute "create_mysql_tables" do
   command "mysql -u root -p#{node['mysql']['server_root_password']} #{node['bacula']['mysql_user']} < /etc/bacula/mysql_tables"
