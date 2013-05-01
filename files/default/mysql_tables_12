@@ -1,13 +1,3 @@
-#!/bin/sh
-#
-# shell script to create Bacula MySQL tables
-#
-bindir=/usr/bin
-PATH="$bindir:$PATH"
-db_name=${db_name:-XXX_DBNAME_XXX}
-
-if mysql $* -f <<END-OF-DATA
-USE ${db_name};
 --
 -- Note, we use BLOB rather than TEXT because in MySQL,
 --  BLOBs are identical to TEXT except that BLOB is case
@@ -393,12 +383,4 @@ CREATE TABLE Version (
 
 -- Initialize Version
 INSERT INTO Version (VersionId) VALUES (12);
-
-END-OF-DATA
-then
-   echo "Creation of Bacula MySQL tables succeeded."
-else
-   echo "Creation of Bacula MySQL tables failed."
-fi
-exit 0
 
