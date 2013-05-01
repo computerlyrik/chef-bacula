@@ -48,7 +48,13 @@ mysql_database node['bacula']['mysql_user'] do
   action :create
 end
 
-cookbook_file "/etc/bacula/mysql_tables"
+cookbook_file "/etc/bacula/mysql_tables" do
+if platform?("ubuntu") #precise 12.04
+  source "mysql_tables_14"
+else #debian 6
+  source "mysql_tables_12"
+end
+
 execute "create_mysql_tables" do
   command "mysql -u root -p#{node['mysql']['server_root_password']} #{node['bacula']['mysql_user']} < /etc/bacula/mysql_tables"
   action :nothing
