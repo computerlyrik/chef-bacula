@@ -11,7 +11,7 @@ if node['zarafa']
       '/usr/share/zarafa',
       '/usr/share/httpd.conf',
       '/etc/postfix',
-      '/etc/default/saslauthd'
+      '/etc/default/saslauthd',
       '/etc/zarafa',
       '/etc/apache2/httpd.conf',
     ]
