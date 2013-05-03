@@ -24,8 +24,6 @@ include_recipe 'bacula::client'
 
 
 ################### MYSQL SERVER SETUP
-node.set['mysql']['bind_address'] = "127.0.0.1"
-
 include_recipe "mysql::server"
 include_recipe "database::mysql"
 mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
