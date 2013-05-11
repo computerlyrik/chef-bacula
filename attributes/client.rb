@@ -65,6 +65,7 @@ if node[:collectd]
     node.set['bacula']['fd']['files'] = {
       'includes' => default[:collectd][:collectd_web][:path]
     }
+  end
 end
 
 
