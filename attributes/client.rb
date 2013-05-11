@@ -50,7 +50,7 @@ if node['ff_sync']
   }
 end
 
-
+#--------------------Collectd----------------#
 #COLLECTD::DEFAULT
 if node[:collectd]
   node.set['bacula']['fd']['files'] = {
@@ -60,13 +60,11 @@ if node[:collectd]
       default[:collectd][:types_db]
     ]
   }
-end
-
 #COLLECTD::WEB
-if node[:collectd][:collectd_web]
-  node.set['bacula']['fd']['files'] = {
-    'includes' => default[:collectd][:collectd_web][:path]
-  }
+  if node[:collectd][:collectd_web]
+    node.set['bacula']['fd']['files'] = {
+      'includes' => default[:collectd][:collectd_web][:path]
+    }
 end
 
 
