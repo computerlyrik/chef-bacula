@@ -44,7 +44,7 @@ if node['sparkleshare'] and node['sparkleshare']['dashboard']
 end
 
 #FIREFOX
-if node['ff_sync']
+unless node['ff_sync'].nil?
   node.set['bacula']['fd']['files'] = {
     'includes' => node['ff_sync']['server_dir']
   }
