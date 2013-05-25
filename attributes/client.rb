@@ -21,7 +21,7 @@ end
 #GITHUB BACKUP
 if node['github-backup']
   node.set['bacula']['fd']['files'] = {
-    'includes' => node['github-backup']['backup_dir']
+    'includes' => [ node['github-backup']['backup_dir'] ]
   }
 end
 
@@ -39,14 +39,14 @@ end
 #SPARKLESHARE
 if node['sparkleshare'] and node['sparkleshare']['dashboard']
   node.set['bacula']['fd']['files'] = {
-    'includes' => node['sparkleshare']['dashboard']['dir']
+    'includes' => [ node['sparkleshare']['dashboard']['dir'] ]
   }
 end
 
 #FIREFOX
 unless node['ff_sync'].nil?
   node.set['bacula']['fd']['files'] = {
-    'includes' => node['ff_sync']['server_dir']
+    'includes' => [ node['ff_sync']['server_dir'] ]
   }
 end
 
@@ -63,7 +63,7 @@ if node[:collectd]
 #COLLECTD::WEB
   if node[:collectd][:collectd_web]
     node.set['bacula']['fd']['files'] = {
-      'includes' => default[:collectd][:collectd_web][:path]
+      'includes' => [ default[:collectd][:collectd_web][:path] ]
     }
   end
 end
