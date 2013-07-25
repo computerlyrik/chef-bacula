@@ -54,9 +54,10 @@ else #debian 6
 end
 end
 
-execute "create_mysql_tables" do
-  command "mysql -u root -p#{node['mysql']['server_root_password']} #{node['bacula']['mysql_user']} < /etc/bacula/mysql_tables"
-  action :nothing
+mysql_database "bacula" do
+  connection mysql_connection_info
+  sql { ::File.open("/etc/bacula/mysql_tables").read }
+  action :query
   subscribes :run, resources(:mysql_database => node['bacula']['mysql_user'])
 end
 
