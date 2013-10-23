@@ -160,8 +160,8 @@ if node['fqdn'] == "chef.#{node['domain']}"
         end
       end
     end
-=end
   end
+=end
 end
 
 
