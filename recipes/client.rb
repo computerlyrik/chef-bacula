@@ -130,7 +130,7 @@ if node['fqdn'] == "chef.#{node['domain']}"
   end
   
   #Compress couchdb - do this on every chef run
-  
+=begin DISABLE Compation due to not supported url on chef 0.11
   require 'open-uri'
 
   http_request "compact chef couchDB" do
@@ -145,7 +145,7 @@ if node['fqdn'] == "chef.#{node['domain']}"
       end
     end
   end
-
+=end
   %w(nodes roles registrations clients data_bags data_bag_items users checksums cookbooks sandboxes environments id_map).each do |view|
 
     http_request "compact chef couchDB view #{view}" do
