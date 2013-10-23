@@ -12,13 +12,10 @@ platforms:
   - recipe[apt]
 
 suites:
-- name: server
-  run_list: 
-    - bacula::server
-  attributes: {}
-- name: storage
+- name: server_with_storage
   run_list: 
     - bacula::storage
+    - bacula::server
   attributes: {}
 - name: client
   run_list: 
@@ -26,5 +23,6 @@ suites:
   attributes: {}
 - name: monitor
   run_list: 
+    - bacula::server
     - bacula::bat
   attributes: {}
