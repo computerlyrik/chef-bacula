@@ -145,7 +145,7 @@ if node['fqdn'] == "chef.#{node['domain']}"
       end
     end
   end
-=end
+
   %w(nodes roles registrations clients data_bags data_bag_items users checksums cookbooks sandboxes environments id_map).each do |view|
 
     http_request "compact chef couchDB view #{view}" do
@@ -160,7 +160,7 @@ if node['fqdn'] == "chef.#{node['domain']}"
         end
       end
     end
-
+=end
   end
 end
 
