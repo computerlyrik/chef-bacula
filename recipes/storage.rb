@@ -50,6 +50,6 @@ template "/etc/bacula/bacula-sd.conf" do
   group node['bacula']['group']
   mode 0640
   variables ({:remote_mount => remote_mount})
-  notifies :restart, resources(:service=>"bacula-sd")
+  notifies :restart, "service[bacula-sd]"
 end
 

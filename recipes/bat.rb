@@ -19,7 +19,11 @@
 
 package "bacula-console-qt"
 
-n = search(:node, 'run_list:recipe\[bacula\:\:server\]').first
+if Chef::Config[:solo]
+  n = node
+else
+  n = search(:node, 'run_list:recipe\[bacula\:\:server\]').first
+end
 
 template "/etc/bacula/bat.conf" do
   group node['bacula']['group']

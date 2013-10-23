@@ -30,7 +30,7 @@ node.set_unless['bacula']['fd']['password_monitor'] = secure_password
 template "/etc/bacula/bacula-fd.conf" do
   group node['bacula']['group']
   mode 0640
-  notifies :restart, resources(:service=>"bacula-fd")
+  notifies :restart, "service[bacula-fd]"
 end
 
 #include scripts for mysql backup

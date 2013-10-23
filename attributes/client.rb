@@ -52,18 +52,18 @@ end
 
 #--------------------Collectd----------------#
 #COLLECTD::DEFAULT
-if node[:collectd]
+if node['collectd']
   node.set['bacula']['fd']['files'] = {
     'includes' => [
-      default[:collectd][:base_dir],
-      default[:collectd][:plugin_dir],
-      default[:collectd][:types_db]
+      default['collectd']['base_dir'],
+      default['collectd']['plugin_dir'],
+      default['collectd']['types_db']
     ]
   }
 #COLLECTD::WEB
-  if node[:collectd][:collectd_web]
+  if node['collectd']['collectd_web']
     node.set['bacula']['fd']['files'] = {
-      'includes' => [ default[:collectd][:collectd_web][:path] ]
+      'includes' => [ default['collectd']['collectd_web']['path'] ]
     }
   end
 end

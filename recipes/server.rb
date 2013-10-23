@@ -58,7 +58,7 @@ mysql_database "bacula" do
   connection mysql_connection_info
   sql { ::File.open("/etc/bacula/mysql_tables").read }
   action :query
-  subscribes :run, resources(:mysql_database => node['bacula']['mysql_user'])
+  subscribes :run, "mysql_database[#{node['bacula']['mysql_user']}]"
 end
 
 ################### Install and configure bacula
@@ -70,14 +70,21 @@ service "bacula-director"
 node.set_unless['bacula']['dir']['password'] = secure_password
 node.set_unless['bacula']['dir']['password_monitor'] = secure_password
 
+if Chef::Config[:solo]
+  bacula_clients = []
+  bacula_storage = node
+else
+  bacula_clients = search(:node, 'recipes:bacula\:\:client')
+  bacula_storage = search(:node, 'recipes:bacula\:\:storage').first
+end
 
 template "/etc/bacula/bacula-dir.conf" do
   group node['bacula']['group']
   mode 0640
-  notifies :restart, resources(:service=>"bacula-director")
+  notifies :restart, "service[bacula-director]"
   variables(
-      :bacula_clients => search(:node, 'recipes:bacula\:\:client'),
-      :bacula_storage => search(:node, 'recipes:bacula\:\:storage').first
+      :bacula_clients => bacula_clients,
+      :bacula_storage => bacula_storage
     )
 end
 
