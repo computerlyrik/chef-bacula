@@ -2,7 +2,7 @@
 # Cookbook Name:: bacula
 # Recipe:: server
 #
-# Copyright 2012, computerlyrik
+# Copyright 2012, 2013 computerlyrik
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -47,18 +47,18 @@ mysql_database node['bacula']['mysql_user'] do
 end
 
 cookbook_file "/etc/bacula/mysql_tables" do
-if platform?("ubuntu") #precise 12.04
-  source "mysql_tables_14"
-else #debian 6
-  source "mysql_tables_12"
-end
+  if platform?("ubuntu") #precise 12.04
+    source "mysql_tables_14"
+  else #debian 6
+    source "mysql_tables_12"
+  end
 end
 
 mysql_database "bacula" do
   connection mysql_connection_info
   sql { ::File.open("/etc/bacula/mysql_tables").read }
-  action :query
-  subscribes :run, "mysql_database[#{node['bacula']['mysql_user']}]"
+  action :nothing
+  subscribes :query, "mysql_database[#{node['bacula']['mysql_user']}]"
 end
 
 ################### Install and configure bacula

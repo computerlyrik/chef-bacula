@@ -21,7 +21,7 @@
 
 node.set_unless['bacula']['sd']['password'] = secure_password
 node.set_unless['bacula']['sd']['password_monitor'] = secure_password
-node.save
+#node.save
 
 package "bacula-sd"
 service "bacula-sd"
