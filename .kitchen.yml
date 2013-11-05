@@ -16,7 +16,11 @@ suites:
   run_list: 
     - bacula::storage
     - bacula::server
-  attributes: {}
+  attributes: 
+    mysql:
+      server_debian_password: test
+      server_root_password: test
+      server_repl_password: test
 - name: client
   run_list: 
     - bacula::client
