@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/computerlyrik/chef-bacula.png?branch=master)](https://travis-ci.org/computerlyrik/chef-bacula)
 
+Code Repo: http://github.com/computerlyrik/chef-bacula
+
 # Description
 
 Tested on Ubuntu 12.04 server (should also work on Debian - please report!)
