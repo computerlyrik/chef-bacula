@@ -21,7 +21,7 @@
 
 node.set_unless['bacula']['sd']['password'] = secure_password
 node.set_unless['bacula']['sd']['password_monitor'] = secure_password
-#node.save
+# node.save
 
 package "bacula-sd"
 service "bacula-sd"
@@ -33,10 +33,9 @@ directory node['bacula']['sd']['backup_dir'] do
   action :create
 end
 
+remote_mount = node['bacula']['sd']['remote_connection'] && node['bacula']['sd']['remote_password']
 
-remote_mount = node['bacula']['sd']['remote_connection'] && node['bacula']['sd']['remote_password'] 
-
-if remote_mount 
+if remote_mount
   package "sshfs"
 
   template "/etc/bacula/scripts/storage_remote_mount" do
@@ -49,7 +48,6 @@ end
 template "/etc/bacula/bacula-sd.conf" do
   group node['bacula']['group']
   mode 0640
-  variables ({:remote_mount => remote_mount})
+  variables(:remote_mount => remote_mount)
   notifies :restart, "service[bacula-sd]"
 end
-

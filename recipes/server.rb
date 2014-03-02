@@ -22,23 +22,19 @@ include_recipe 'bacula::client'
 
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 
-
 ################### MYSQL SERVER SETUP
 include_recipe "mysql::server"
 include_recipe "database::mysql"
-mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
-
+mysql_connection_info = { :host => "localhost", :username => 'root', :password => node['mysql']['server_root_password'] }
 
 node.set_unless['bacula']['mysql_password'] = secure_password
-
-
 
 mysql_database_user node['bacula']['mysql_user'] do
   password  node['bacula']['mysql_password']
   database_name node['bacula']['mysql_user']
   connection mysql_connection_info
 #  notifies :run, resources(:execute=>"create_mysql_tables")
-  action [:create,:grant]
+  action [:create, :grant]
 end
 
 mysql_database node['bacula']['mysql_user'] do
@@ -47,9 +43,9 @@ mysql_database node['bacula']['mysql_user'] do
 end
 
 cookbook_file "/etc/bacula/mysql_tables" do
-  if platform?("ubuntu") #precise 12.04
+  if platform?("ubuntu") # precise 12.04
     source "mysql_tables_14"
-  else #debian 6
+  else # debian 6
     source "mysql_tables_12"
   end
 end
@@ -65,7 +61,6 @@ end
 
 package "bacula-director-mysql"
 service "bacula-director"
-
 
 node.set_unless['bacula']['dir']['password'] = secure_password
 node.set_unless['bacula']['dir']['password_monitor'] = secure_password
@@ -92,8 +87,3 @@ template "/etc/bacula/common_default_passwords" do
   group node['bacula']['group']
   mode 0640
 end
-
-
-
-
-

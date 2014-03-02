@@ -33,7 +33,7 @@ template "/etc/bacula/bacula-fd.conf" do
   notifies :restart, "service[bacula-fd]"
 end
 
-#include scripts for mysql backup
+# include scripts for mysql backup
 if node['mysql'] && node['mysql']['server_root_password']
 
   template '/usr/local/sbin/backupdbs' do
@@ -58,12 +58,11 @@ if node['mysql'] && node['mysql']['server_root_password']
     action :create
     recursive true
   end
-  
-  
+
 end
 
-#include scripts for ldap backup
-if node['openldap'] && node['openldap']['slapd_type'] == "master" 
+# include scripts for ldap backup
+if node['openldap'] && node['openldap']['slapd_type'] == "master"
   template '/usr/local/sbin/backupldap' do
     mode 0500
     user node['bacula']['user']
@@ -75,7 +74,6 @@ if node['openldap'] && node['openldap']['slapd_type'] == "master"
     action :create
     recursive true
   end
-  
 
   template '/usr/local/sbin/restoreldap' do
     mode 0500
@@ -87,23 +85,23 @@ if node['openldap'] && node['openldap']['slapd_type'] == "master"
     action :create
     recursive true
   end
-  
+
 end
 
-#include scritps for chef server backup
+# include scritps for chef server backup
 if node['fqdn'] == "chef.#{node['domain']}"
-  
+
   package "python-couchdb"
   package "python-pkg-resources"
-  
+
   node.set['bacula']['fd']['files'] = {
     'includes' => ["/var/lib/chef", "/etc/chef" "/etc/couchdb"]
   }
-  
+
   remote_file "/usr/local/sbin/chef_server_backup.rb" do
     source "https://raw.github.com/jtimberman/knife-scripts/master/chef_server_backup.rb"
   end
-  
+
   template '/usr/local/sbin/backupchef' do
     mode 0500
     user node['bacula']['user']
@@ -116,52 +114,16 @@ if node['fqdn'] == "chef.#{node['domain']}"
     recursive true
   end
 
-
   template '/usr/local/sbin/restorechef' do
     mode 0500
     user node['bacula']['user']
     group 'root'
   end
-  
+
   directory '/var/local/chefrestores' do
     user node['bacula']['user']
     action :create
     recursive true
   end
-  
-  #Compress couchdb - do this on every chef run
-=begin DISABLE Compation due to not supported url on chef 0.11
-  require 'open-uri'
 
-  http_request "compact chef couchDB" do
-    action :post
-    url "#{Chef::Config[:couchdb_url]}/chef/_compact"
-    only_if do
-      begin
-        open("#{Chef::Config[:couchdb_url]}/chef")
-        JSON::parse(open("#{Chef::Config[:couchdb_url]}/chef").read)["disk_size"] > 100_000_000
-      rescue OpenURI::HTTPError
-        nil
-      end
-    end
-  end
-
-  %w(nodes roles registrations clients data_bags data_bag_items users checksums cookbooks sandboxes environments id_map).each do |view|
-
-    http_request "compact chef couchDB view #{view}" do
-      action :post
-      url "#{Chef::Config[:couchdb_url]}/chef/_compact/#{view}"
-      only_if do
-        begin
-          open("#{Chef::Config[:couchdb_url]}/chef/_design/#{view}/_info")
-          JSON::parse(open("#{Chef::Config[:couchdb_url]}/chef/_design/#{view}/_info").read)["view_index"]["disk_size"] > 100_000_000
-        rescue OpenURI::HTTPError
-          nil
-        end
-      end
-    end
-  end
-=end
 end
-
-

@@ -1,9 +1,8 @@
 default['bacula']['fd']['address'] = node['ipaddress']
 
-
 ## AUTODETECT BACKUPABLE DATA
 
-#ZARAFA
+# ZARAFA
 if node['zarafa']
   node.set['bacula']['fd']['files'] = {
     'includes' => [
@@ -13,20 +12,19 @@ if node['zarafa']
       '/etc/postfix',
       '/etc/default/saslauthd',
       '/etc/zarafa',
-      '/etc/apache2/httpd.conf',
+      '/etc/apache2/httpd.conf'
     ]
   }
 end
 
-#GITHUB BACKUP
+# GITHUB BACKUP
 if node['github-backup']
   node.set['bacula']['fd']['files'] = {
-    'includes' => [ node['github-backup']['backup_dir'] ]
+    'includes' => [node['github-backup']['backup_dir']]
   }
 end
 
-
-#GITLAB
+# GITLAB
 if node['gitlab']
   node.set['bacula']['fd']['files'] = {
     'includes' => [
@@ -36,22 +34,26 @@ if node['gitlab']
   }
 end
 
-#SPARKLESHARE
-if node['sparkleshare'] and node['sparkleshare']['dashboard']
+# SPARKLESHARE
+if node['sparkleshare'] && node['sparkleshare']['dashboard']
   node.set['bacula']['fd']['files'] = {
-    'includes' => [ node['sparkleshare']['dashboard']['dir'] ]
+    'includes' => [
+      node['sparkleshare']['dashboard']['dir']
+    ]
   }
 end
 
-#FIREFOX
+# FIREFOX
 unless node['ff_sync'].nil?
   node.set['bacula']['fd']['files'] = {
-    'includes' => [ node['ff_sync']['server_dir'] ]
+    'includes' => [
+      node['ff_sync']['server_dir']
+    ]
   }
 end
 
 #--------------------Collectd----------------#
-#COLLECTD::DEFAULT
+# COLLECTD::DEFAULT
 if node['collectd']
   node.set['bacula']['fd']['files'] = {
     'includes' => [
@@ -60,21 +62,20 @@ if node['collectd']
       default['collectd']['types_db']
     ]
   }
-#COLLECTD::WEB
+# COLLECTD::WEB
   if node['collectd']['collectd_web']
     node.set['bacula']['fd']['files'] = {
-      'includes' => [ default['collectd']['collectd_web']['path'] ]
+      'includes' => [
+        default['collectd']['collectd_web']['path']
+      ]
     }
   end
 end
 
+# CHEF-SERVER
 
-
-#CHEF-SERVER
-=begin
-if is chef server #TODO
-  node.set['bacula']['fd']['files'] = {
-    'includes' => ['/var/lib/chef', '/etc/chef/etc/couchdb']
-  }
-end
-=end
+# if is chef server #TODO
+#   node.set['bacula']['fd']['files'] = {
+#     'includes' => ['/var/lib/chef', '/etc/chef/etc/couchdb']
+#   }
+# end

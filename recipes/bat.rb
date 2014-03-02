@@ -28,7 +28,8 @@ end
 template "/etc/bacula/bat.conf" do
   group node['bacula']['group']
   mode 0640
-  variables ({
-    :bacula_dir_password=> n['bacula']['dir']['password'],
-    :bacula_dir_address => n['bacula']['dir']['address']})
+  variables(
+    bacula_dir_password: n['bacula']['dir']['password'],
+    bacula_dir_address: n['bacula']['dir']['address']
+  )
 end

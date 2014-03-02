@@ -10,8 +10,7 @@ version          "1.2.1"
   supports os
 end
 
-
-depends        "mysql",">= 3.0.0"
+depends        "mysql", ">= 3.0.0"
 
 %w{ openssl database }.each do |dep|
   depends dep
